@@ -1,35 +1,136 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Hangman Game</title>
-<script>
-	
-//press any key to start
 
-   document.onkeyup = function(event) {
+<head>
+    <title>Hangman Game</title>
+    <script>
+    //press any key to start
+    //global variables
+    var wordToGuess = "win"; //determine Current word for user to guess
+    var winArray = [] // empty win array 
+    var maxAttempts = 10; //how many guesses the user gets
+    var numAttempts = 0; //sets attempts to 0 for new game //number of Guesses in current session
+    var numWins = 0; //Wins - tracks how many times you won
+    var numRemaingAttempts = 10; //number of guesses remaining
+    var choices = []; // array to store choices
+
+    document.onkeyup = function(event) {
 
         var pressedKeyAny = event.key;
-        //sanitize input
-        var pressedKey = pressedKeyAny.toLowerCase();
-        // var pressedKey = sanitized
-        console.log(pressedKey);
+        var pressedKey = pressedKeyAny.toLowerCase(); //sanitize input
+
+        //
+        // choices.push(pressedKey);
+        //split wordToGuess into array
+
+        var wordArray = wordToGuess.split("");
+        for (var i = 0; i < wordArray.length; i++) {
+            console.log(wordArray[i]);
+            var dashes = wordArray.length; //how many dashes to display
+            repeat("test",dashes);
+        }
+
+        //determine output to screen
+
+
+        console.log(wordArray[2]);
+
+        //win condition
+
+        console.log(choices.indexOf(pressedKey) + "this is the list");
+
+
+        //checks if user choice is a repeat
+        if (repeatGuess(choices, pressedKey)) {
+
+            console.log("yes!");
+            alert("guessed alreayd")
+            console.log(choices);
+            console.log(numRemaingAttempts + " unique attempts remaining");
+
+            //dont increment
+        } else { // now we can evaluate if the letter is a winner
+
+            // if (pressedKey == "w") {
+            if (parseWinword(wordArray, pressedKey)) { // checks if key pressed is in the Winning word array
+                choices.push(pressedKey);
+                alert("that is correct");
+                myFunction();
+                //uncover letter code
+                //decrement numRemainingAttempts
+                numAttempts++ // increase attempt by 1
+                numRemaingAttempts-- // decrease remaining attempts by 1
+                console.log(numAttempts + " times attempted");
+                console.log(numRemaingAttempts + " attempts remaining");
+                console.log(choices);
+
+            } else {
+                choices.push(pressedKey);
+                alert("keep trying");
+                numRemaingAttempts--;
+                console.log(numRemaingAttempts + " attempts remaining")
+                console.log(choices);
+            }
+        }
+    }
+
+
+
+
+    // } else { // console.log("last else"); // }
+
+
+    //succesful attempt function
+
+    function guessGood(letter) {
+        //update
+    }
+
+    function guessWrong(letter) {
+
+    }
+
+
+    function repeatGuess(array, letter) // returns true if value in array
+    {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == letter) {
+                // alert('Value already in array');
+                return true;
+
+            }
+        }
+
+    }
+
+    // function to take winning word and split into array
+
+    function parseWinword(array, letter) // returns true if value in array
+    {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == letter) {
+                // alert('Value already in array');
+                return true;
+
+            }
+        }
+
+    }
+function repeat(id,test) {
+    var str = "Hello world!";
+    document.getElementById(id).innerHTML = str.repeat(test);
 }
 
-
-//determine Current word for user to guess
-
-//how many guesses the user gets
+    // determine winner
 
 
-//Wins - tracks how many times you won
 
-//number of Guesses in current session
+    // 
+    // if ((pressedKey == "w")) {
 
-//number of guesses remaining
+    // } else {
 
-//letters already guessed 
-
-//change - to letter on succefuly guess
+    // }
 
 
 
@@ -41,12 +142,15 @@
 
 
 
+    //letters already guessed 
 
-
-</script>
-
+    //change - to letter on succefuly guess
+    </script>
 </head>
+
 <body>
 
+<p id="test">hi</p>
 </body>
+
 </html>
