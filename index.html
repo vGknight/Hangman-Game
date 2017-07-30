@@ -6,34 +6,35 @@
     <script>
     //press any key to start
     //global variables
-    var wordToGuess = "win"; //determine Current word for user to guess
-    var winArray = [] // empty win array 
+    var wordToGuess = "winnnnnn"; //determine Current word for user to guess make this random
+    // var winArray = [] // empty win array 
     var maxAttempts = 10; //how many guesses the user gets
     var numAttempts = 0; //sets attempts to 0 for new game //number of Guesses in current session
     var numWins = 0; //Wins - tracks how many times you won
     var numRemaingAttempts = 10; //number of guesses remaining
-    var choices = []; // array to store choices
+    var choices = []; // array to store choices user made
+    var lettersLeft = wordToGuess.split(""); // contains letters that need to be guessed to win, if any letters are in this array then the game is not won - populated from
+
 
     document.onkeyup = function(event) {
 
         var pressedKeyAny = event.key;
         var pressedKey = pressedKeyAny.toLowerCase(); //sanitize input
 
-        //
-        // choices.push(pressedKey);
+
         //split wordToGuess into array
 
         var wordArray = wordToGuess.split("");
         for (var i = 0; i < wordArray.length; i++) {
             console.log(wordArray[i]);
             var dashes = wordArray.length; //how many dashes to display
-            repeat("test",dashes);
+            repeat("test", dashes);
         }
 
         //determine output to screen
 
 
-        console.log(wordArray[2]);
+        // console.log(wordArray[2]);
 
         //win condition
 
@@ -41,7 +42,7 @@
 
 
         //checks if user choice is a repeat
-        if (repeatGuess(choices, pressedKey)) {
+        if (isValueInArr(choices, pressedKey)) {
 
             console.log("yes!");
             alert("guessed alreayd")
@@ -49,13 +50,15 @@
             console.log(numRemaingAttempts + " unique attempts remaining");
 
             //dont increment
-        } else { // now we can evaluate if the letter is a winner
+        } else {
+
+            // now we can evaluate if the letter is a winner
 
             // if (pressedKey == "w") {
-            if (parseWinword(wordArray, pressedKey)) { // checks if key pressed is in the Winning word array
+            if (isValueInArr(wordArray, pressedKey)) { // checks if key pressed is in the Winning word array
                 choices.push(pressedKey);
                 alert("that is correct");
-                myFunction();
+                //   repeat();
                 //uncover letter code
                 //decrement numRemainingAttempts
                 numAttempts++ // increase attempt by 1
@@ -63,6 +66,10 @@
                 console.log(numAttempts + " times attempted");
                 console.log(numRemaingAttempts + " attempts remaining");
                 console.log(choices);
+
+                removeItems(lettersLeft, pressedKey);
+                winCondition(lettersLeft); // evaluates letters
+                console.log(lettersLeft.length);
 
             } else {
                 choices.push(pressedKey);
@@ -74,10 +81,9 @@
         }
     }
 
-
-
-
-    // } else { // console.log("last else"); // }
+    // evaluate win
+    // guess all the letters in the word
+    // populate array with uni
 
 
     //succesful attempt function
@@ -91,11 +97,11 @@
     }
 
 
-    function repeatGuess(array, letter) // returns true if value in array
+
+    function isValueInArr(array, letter) // Chicken test returns true if value in array
     {
         for (var i = 0; i < array.length; i++) {
             if (array[i] == letter) {
-                // alert('Value already in array');
                 return true;
 
             }
@@ -103,23 +109,10 @@
 
     }
 
-    // function to take winning word and split into array
-
-    function parseWinword(array, letter) // returns true if value in array
-    {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] == letter) {
-                // alert('Value already in array');
-                return true;
-
-            }
-        }
-
+    function repeat(id, test) {
+        var str = " - ";
+        document.getElementById(id).innerHTML = str.repeat(test);
     }
-function repeat(id,test) {
-    var str = "Hello world!";
-    document.getElementById(id).innerHTML = str.repeat(test);
-}
 
     // determine winner
 
@@ -132,14 +125,63 @@ function repeat(id,test) {
 
     // }
 
+    // win determiniation 
+    // needs to run after each succesful guess
+
+    // pseudo
+
+    // if 
+
+    //checks for empty array, if empty it means all letters have been guessed (and removed by the removeItems fn) therefore for this game if this function is run on an array that contains 
+    function winCondition(check) {
+        if (check.length == 0) {
+            console.log("win condition met");
+            alert("GAME OVER")
+            playAgain()
+            return;
+        } else {
+            console.log("keep on truckin");
+        }
+    }
+
+    function removeItems(array, removeme) {
+        // loop through array and remove all indexes where value == removeme , since .splice() reduces the lenght of the array we count backward  
+
+        //if the word is poop [p,o,o,p] and the user guesses o,  then this will remove all indexes equal to o update the passed in array to [p,p]
+
+        // 
+
+        for (var i = array.length - 1; i >= 0; i--) {
+            if (array[i] == removeme) {
+                array.splice(i, 1);
+                console.log(array) // alert('Value already in array');
+            }
+        }
+    }
+
+    function playAgain() {
+
+        confirm("play again");
+
+        if (confirm) {
+            numWins++;
+            console.log("play again");
+            console.log(numWins);
+
+        } else {
+            console.log("forget that noise");
+            return;
+        }
 
 
 
 
 
+    }
 
-
-
+    function quit() {
+        console.log("i quit");
+    }
 
 
     //letters already guessed 
@@ -149,8 +191,11 @@ function repeat(id,test) {
 </head>
 
 <body>
-
-<p id="test">hi</p>
+    <p id="test">hi</p>
+    <h3>Max Attempts</h3>
+    <button class="startgame">Start Game</button>
+    <div>Max Attempts</div>
+    <div id="maxattempts">0</div>
 </body>
 
 </html>
