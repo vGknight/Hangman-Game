@@ -1,0 +1,39 @@
+body {
+    background-image: url(movies.jpg);
+    background-size: cover;
+    opacity: 0.5;
+    max-height: 100%;
+}
+
+.container{
+    max-width: 100%;
+}
+
+#Content-Left,
+#Content-Right {
+    width: 19%;
+    float: left;
+    height: 200px;
+    padding: 1.5%;
+}
+
+
+
+.main {
+    background-color: black;
+    color: white;
+    text-align: left;
+    width: 53%;
+    height: 200px;
+	padding: 1.5%;
+    float: left;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+
+ #word{
+ 	margin: 0,5px,0,5px;
+ }
+ 
